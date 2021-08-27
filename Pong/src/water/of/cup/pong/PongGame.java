@@ -63,7 +63,6 @@ public class PongGame extends Game {
 		buttons.add(ball);
 		buttons.add(paddle1);
 		buttons.add(paddle2);
-		Bukkit.getLogger().info("rotation: " + rotation);
 	}
 
 	@Override
