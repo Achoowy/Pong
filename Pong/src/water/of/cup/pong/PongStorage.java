@@ -20,6 +20,7 @@ public class PongStorage extends GameStorage {
         return new StorageType[] {
                 StorageType.WINS,
                 StorageType.LOSSES,
+                StorageType.POINTS
         };
     }
 }

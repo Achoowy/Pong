@@ -1,6 +1,7 @@
 package water.of.cup.pong;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,6 +22,7 @@ import water.of.cup.boardgames.game.inventories.GameInventory;
 import water.of.cup.boardgames.game.maps.MapData;
 import water.of.cup.boardgames.game.maps.Screen;
 import water.of.cup.boardgames.game.storage.GameStorage;
+import water.of.cup.boardgames.game.storage.StorageType;
 
 public class PongGame extends Game {
 	protected Screen screen;
@@ -299,8 +301,7 @@ public class PongGame extends Game {
 		}
 		if (singlePlayer) {
 			this.setInGame(false);
-			sendGameWinMoney(winner);
-			// updateGameStorage(winner);
+			updateStoragePoints();
 			clearGamePlayers();
 			return;
 		}
@@ -320,6 +321,25 @@ public class PongGame extends Game {
 	@Override
 	protected void createMapManager(int rotation) {
 		mapManager = new PongMapManager(mapStructure, rotation, this);
+	}
+	
+	protected void updateStoragePoints() {
+		if (!hasGameStorage())
+			return;
+		
+		if (gameStorage.canExecute(StorageType.POINTS)) {
+			if (teamManager.getGamePlayers().size() == 1) {
+				GamePlayer player = teamManager.getGamePlayers().get(0);
+				
+				LinkedHashMap<StorageType, Object> playerStats = BoardGames.getInstance().getStorageManager()
+						.fetchPlayerStats(player.getPlayer(), getGameStore(), false);
+				double mostPoints = 0;
+			
+				if(playerStats != null && playerStats.containsKey(StorageType.POINTS)) mostPoints = (Double) playerStats.get(StorageType.POINTS);
+				if (points1 > mostPoints)
+					gameStorage.setData(player.getPlayer(), StorageType.POINTS, (double) points1);
+			}
+		}
 	}
 
 }
