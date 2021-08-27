@@ -52,12 +52,12 @@ public class PongInventory extends GameInventory {
 
     @Override
     protected boolean hasGameWagers() {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean hasWagerScreen() {
-        return true;
+        return false;
     }
 
     @Override

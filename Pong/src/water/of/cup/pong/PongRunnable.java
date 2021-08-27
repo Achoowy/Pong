@@ -63,7 +63,7 @@ public class PongRunnable extends BukkitRunnable {
 					ballVelocity[0] = newBallSpeed * Math.cos(bounceAngle);
 					ballVelocity[1] = - newBallSpeed * -Math.sin(bounceAngle);
 					
-					double timeElapsed = (paddlePos - ballPos[0]) / xdiff * difference;
+					double timeElapsed = difference - (paddlePos - ballPos[0]) / xdiff * difference;
 					newPos[0] = paddlePos + ballVelocity[0] * timeElapsed;
 					newPos[1] = yIntercept + ballVelocity[1] * timeElapsed;
 					game.hit();
@@ -90,7 +90,7 @@ public class PongRunnable extends BukkitRunnable {
 					ballVelocity[0] = newBallSpeed * Math.cos(bounceAngle);
 					ballVelocity[1] = newBallSpeed * -Math.sin(bounceAngle);
 					
-					double timeElapsed = (paddlePos - ballPos[0]) / xdiff * difference;
+					double timeElapsed = difference - (paddlePos - ballPos[0]) / xdiff * difference;
 					newPos[0] = paddlePos + ballVelocity[0] * timeElapsed;
 					newPos[1] = yIntercept + ballVelocity[1] * timeElapsed;
 					game.hit();

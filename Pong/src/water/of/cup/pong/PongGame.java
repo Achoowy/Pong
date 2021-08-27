@@ -2,6 +2,7 @@ package water.of.cup.pong;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -42,6 +43,7 @@ public class PongGame extends Game {
 	private int firstServe;
 
 	private PongRunnable pongRunnable;
+	// private Timer pongTimer;
 
 //	Collisions with
 //	paddles are not elastic. To ensure that one side will eventually
@@ -59,6 +61,7 @@ public class PongGame extends Game {
 		buttons.add(ball);
 		buttons.add(paddle1);
 		buttons.add(paddle2);
+		Bukkit.getLogger().info("rotation: " + rotation);
 	}
 
 	@Override
@@ -72,7 +75,8 @@ public class PongGame extends Game {
 
 	@Override
 	protected void startGame() {
-		super.startGame();
+		this.setInGame();
+		screen.renderScreen();
 		firstServe = 1;
 		points1 = 0;
 		points2 = 0;
@@ -86,16 +90,17 @@ public class PongGame extends Game {
 
 	private void newRound() {
 		setBallPos(new double[] { 128, 64 });
-		
-		
+
 		double ballAngle = (Math.random() * 2 - 1) * 5 * Math.PI / 12;
-		double ballSpeed = 15;
-		
+		double ballSpeed = 16;
+
 		ballVelocity = new double[] { firstServe * ballSpeed * Math.cos(ballAngle), ballSpeed * Math.sin(ballAngle) };
 
-		if (pongRunnable != null && !pongRunnable.isCancelled())
+		if (pongRunnable != null && !pongRunnable.isCancelled()) {
 			pongRunnable.cancel();
-		pongRunnable = new PongRunnable(this);
+		} else {
+			pongRunnable = new PongRunnable(this);
+		}
 		pongRunnable.runTaskTimer(BoardGames.getInstance(), 60, 1);
 
 	}
@@ -117,7 +122,7 @@ public class PongGame extends Game {
 		for (GamePlayer gp : teamManager.getGamePlayers())
 			gp.getPlayer().sendMessage(points1 + ":" + points2);
 		newRound();
-		
+
 		if (points1 >= 11)
 			this.endGame(teamManager.getGamePlayers().get(0));
 		if (points2 >= 11)
@@ -127,9 +132,8 @@ public class PongGame extends Game {
 	@Override
 	protected void setGameName() {
 		this.gameName = "Pong";
-
 	}
-	
+
 	@Override
 	public boolean canPlaceBoard(Location loc, int rotation) {
 		int[] centerLoc = mapManager.getMapValsLocationOnRotatedBoard(placedMapVal);
@@ -213,8 +217,7 @@ public class PongGame extends Game {
 
 	@Override
 	protected GameStorage getGameStorage() {
-		// TODO Auto-generated method stub
-		return null;
+		return new PongStorage(this);
 	}
 
 	@Override
@@ -226,7 +229,7 @@ public class PongGame extends Game {
 	@Override
 	protected GameConfig getGameConfig() {
 		// TODO Auto-generated method stub
-		return null;
+		return new PongConfig(this);
 	}
 
 	@Override
@@ -285,8 +288,16 @@ public class PongGame extends Game {
 
 	@Override
 	public void endGame(GamePlayer winner) {
-		if (pongRunnable != null && !pongRunnable.isCancelled())
+		if (pongRunnable != null && !pongRunnable.isCancelled()) {
 			pongRunnable.cancel();
+		}
+		if (singlePlayer) {
+			this.setInGame(false);
+			sendGameWinMoney(winner);
+			//updateGameStorage(winner);
+			clearGamePlayers();
+			return;
+		}
 		super.endGame(winner);
 	}
 
@@ -298,6 +309,11 @@ public class PongGame extends Game {
 		for (GamePlayer gp : teamManager.getGamePlayers())
 			gp.getPlayer().sendMessage("volleys:" + points1);
 
+	}
+
+	@Override
+	protected void createMapManager(int rotation) {
+		mapManager = new PongMapManager(mapStructure, rotation, this);
 	}
 
 }
