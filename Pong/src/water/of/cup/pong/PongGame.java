@@ -268,12 +268,18 @@ public class PongGame extends Game {
 	}
 
 	protected void setBallPos(double[] ballP) {
+		boolean render1 = (ballPos[0] - 2 < 130 || ballP[0] < 130);
+		boolean render2 = (ballPos[0] - 2 > 125 || ballP[0] > 125);
 		ballPos[0] = ballP[0] - 2;
 		ballPos[1] = ballP[1] - 2;
 		int[] loc = ball.getLocation();
 		loc[0] = (int) ballPos[0];
 		loc[1] = (int) ballPos[1];
-		mapManager.renderBoard();
+
+		if (render1)
+			((PongMapManager) mapManager).renderBoard(1);
+		if (render2)
+			((PongMapManager) mapManager).renderBoard(2);
 	}
 
 	protected double[] getBallVelocity() {
@@ -294,7 +300,7 @@ public class PongGame extends Game {
 		if (singlePlayer) {
 			this.setInGame(false);
 			sendGameWinMoney(winner);
-			//updateGameStorage(winner);
+			// updateGameStorage(winner);
 			clearGamePlayers();
 			return;
 		}
