@@ -8,7 +8,6 @@ public class PongRunnable extends BukkitRunnable {
 	
 
 	public PongRunnable(PongGame pongGame) {
-
 		this.game = pongGame;
 		lastTimeChange = -1;
 	}
@@ -16,11 +15,11 @@ public class PongRunnable extends BukkitRunnable {
 	@Override
 	public void run() {
 		if (lastTimeChange == -1) {
-			lastTimeChange = System.currentTimeMillis() / 1000;
+			lastTimeChange = System.nanoTime() / 1000000000.0;
 			return;
 		}
 		
-		double time = System.currentTimeMillis() / 1000;
+		double time = System.nanoTime() / 1000000000.0;
 		double difference = time - lastTimeChange;
 		lastTimeChange = time;
 		

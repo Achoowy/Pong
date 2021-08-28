@@ -29,6 +29,7 @@ public class PongGame extends Game {
 	private double[] ballPos;
 
 	protected boolean singlePlayer;
+	private PongMapManager pongMapManager;
 
 	// protected double[] ballDirection;
 	// protected double ballSpeed;
@@ -93,7 +94,7 @@ public class PongGame extends Game {
 		setBallPos(new double[] { 128, 64 });
 
 		double ballAngle = (Math.random() * 2 - 1) * 5 * Math.PI / 12;
-		double ballSpeed = 16;
+		double ballSpeed = 60;
 
 		ballVelocity = new double[] { firstServe * ballSpeed * Math.cos(ballAngle), ballSpeed * Math.sin(ballAngle) };
 
@@ -102,7 +103,7 @@ public class PongGame extends Game {
 		} else {
 			pongRunnable = new PongRunnable(this);
 		}
-		pongRunnable.runTaskTimer(BoardGames.getInstance(), 60, 1);
+		pongRunnable.runTaskTimer(BoardGames.getInstance(), 40, 1);
 
 	}
 
@@ -278,9 +279,9 @@ public class PongGame extends Game {
 		loc[1] = (int) ballPos[1];
 
 		if (render1)
-			((PongMapManager) mapManager).renderBoard(1);
+			pongMapManager.renderBoard(1);
 		if (render2)
-			((PongMapManager) mapManager).renderBoard(2);
+			pongMapManager.renderBoard(2);
 	}
 
 	protected double[] getBallVelocity() {
@@ -298,6 +299,7 @@ public class PongGame extends Game {
 		if (pongRunnable != null && !pongRunnable.isCancelled()) {
 			pongRunnable.cancel();
 		}
+		pongRunnable = null;
 		if (singlePlayer) {
 			this.setInGame(false);
 			updateStoragePoints();
@@ -319,7 +321,8 @@ public class PongGame extends Game {
 
 	@Override
 	protected void createMapManager(int rotation) {
-		mapManager = new PongMapManager(mapStructure, rotation, this);
+		pongMapManager = new PongMapManager(mapStructure, rotation, this);
+		mapManager = pongMapManager;
 	}
 	
 	protected void updateStoragePoints() {

@@ -44,7 +44,7 @@ public class PongMapManager extends MapManager {
 		MapMeta mapMeta = map.getMapMeta();
 		MapView view = mapMeta.getMapView();
 
-		for (MapRenderer renderer : view.getRenderers())
+		for (MapRenderer renderer : view.getRenderers()) {
 			if (renderer instanceof GameRenderer)
 				((GameRenderer) renderer).rerender();
 		Bukkit.getServer().getScheduler().runTaskAsynchronously(BoardGames.getInstance(), new Runnable() {
@@ -53,6 +53,8 @@ public class PongMapManager extends MapManager {
 				view.getWorld().getPlayers().forEach(player -> player.sendMap(view));
 			}
 		});
+		return;
+		}
 	}
 
 }
