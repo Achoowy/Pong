@@ -3,13 +3,13 @@ package water.of.cup.pong;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import net.md_5.bungee.api.ChatColor;
 import water.of.cup.boardgames.BoardGames;
 import water.of.cup.boardgames.game.BoardItem;
 import water.of.cup.boardgames.game.Button;
@@ -102,9 +102,14 @@ public class PongGame extends Game {
 	}
 
 	private void setScoreButtons() {
-		score1.setVisible(true);
+		score1.setVisible(points1 <= 11);
 		score2.setVisible(!singlePlayer);
-		score1.setImage("PONG_NUM_" + points1);
+		if (points1 <= 11)
+			score1.setImage("PONG_NUM_" + points1);
+		else 
+			if (singlePlayer)
+				teamManager.getGamePlayers().get(0).getPlayer().sendMessage(ChatColor.DARK_RED + "" + points1);
+		
 		score2.setImage("PONG_NUM_" + points2);
 		mapManager.renderBoard();
 	}
@@ -128,7 +133,6 @@ public class PongGame extends Game {
 
 	protected void score() {
 		if (singlePlayer) {
-			teamManager.getTurnPlayer().getPlayer().sendMessage("You got " + points1 + " volleys.");
 			this.endGame(null);
 			return;
 		}

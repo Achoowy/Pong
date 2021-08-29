@@ -1,18 +1,11 @@
 package water.of.cup.pong;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
-import org.bukkit.Material;
-
 import water.of.cup.boardgames.config.ConfigUtil;
 import water.of.cup.boardgames.game.GamePlayer;
-import water.of.cup.boardgames.game.games.chess.Chess;
 import water.of.cup.boardgames.game.inventories.GameInventory;
 import water.of.cup.boardgames.game.inventories.GameOption;
-import water.of.cup.boardgames.game.inventories.GameOptionType;
 
 public class PongInventory extends GameInventory {
 
