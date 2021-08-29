@@ -68,7 +68,7 @@ public class PongGame extends Game {
 		buttons.add(paddle1);
 		buttons.add(paddle2);
 		score1 = new Button(this, "PONG_NUM_0", new int[] { 127 - 12 , 2 }, 0, "score");
-		score2 = new Button(this, "PONG_NUM_0", new int[] { 128 + 12, 2 }, 0, "score");
+		score2 = new Button(this, "PONG_NUM_0", new int[] { 128 + 4, 2 }, 0, "score");
 		score1.setVisible(false);
 		score2.setVisible(false);
 		score1.setScreen(screen);
