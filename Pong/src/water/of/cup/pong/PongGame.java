@@ -143,6 +143,7 @@ public class PongGame extends Game {
 			this.endGame(teamManager.getGamePlayers().get(0));
 		if (points2 >= 11)
 			this.endGame(teamManager.getGamePlayers().get(1));
+		newRound();
 	}
 
 	@Override
