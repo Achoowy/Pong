@@ -100,9 +100,9 @@ public class PongGame extends Game {
 
 		if (pongRunnable != null && !pongRunnable.isCancelled()) {
 			pongRunnable.cancel();
-		} else {
-			pongRunnable = new PongRunnable(this);
 		}
+		pongRunnable = new PongRunnable(this);
+
 		pongRunnable.runTaskTimer(BoardGames.getInstance(), 40, 1);
 
 	}
@@ -324,20 +324,21 @@ public class PongGame extends Game {
 		pongMapManager = new PongMapManager(mapStructure, rotation, this);
 		mapManager = pongMapManager;
 	}
-	
+
 	protected void updateStoragePoints() {
 		if (!hasGameStorage())
 			return;
-		
+
 		if (gameStorage.canExecute(StorageType.POINTS)) {
 			if (teamManager.getGamePlayers().size() == 1) {
 				GamePlayer player = teamManager.getGamePlayers().get(0);
-				
+
 				LinkedHashMap<StorageType, Object> playerStats = BoardGames.getInstance().getStorageManager()
 						.fetchPlayerStats(player.getPlayer(), getGameStore(), false);
 				double mostPoints = 0;
-			
-				if(playerStats != null && playerStats.containsKey(StorageType.POINTS)) mostPoints = (Double) playerStats.get(StorageType.POINTS);
+
+				if (playerStats != null && playerStats.containsKey(StorageType.POINTS))
+					mostPoints = (Double) playerStats.get(StorageType.POINTS);
 				if (points1 > mostPoints)
 					gameStorage.setData(player.getPlayer(), StorageType.POINTS, (double) points1);
 			}
