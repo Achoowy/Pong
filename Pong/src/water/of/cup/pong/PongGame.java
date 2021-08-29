@@ -37,7 +37,7 @@ public class PongGame extends Game {
 
 	private Button paddle1;
 	private Button paddle2;
-	
+
 	private Button score1;
 	private Button score2;
 
@@ -67,7 +67,7 @@ public class PongGame extends Game {
 		buttons.add(ball);
 		buttons.add(paddle1);
 		buttons.add(paddle2);
-		score1 = new Button(this, "PONG_NUM_0", new int[] { 127 - 12 , 2 }, 0, "score");
+		score1 = new Button(this, "PONG_NUM_0", new int[] { 127 - 12, 2 }, 0, "score");
 		score2 = new Button(this, "PONG_NUM_0", new int[] { 128 + 4, 2 }, 0, "score");
 		score1.setVisible(false);
 		score2.setVisible(false);
@@ -100,7 +100,7 @@ public class PongGame extends Game {
 		newRound();
 		setScoreButtons();
 	}
-	
+
 	private void setScoreButtons() {
 		score1.setVisible(true);
 		score2.setVisible(!singlePlayer);
@@ -143,7 +143,8 @@ public class PongGame extends Game {
 			this.endGame(teamManager.getGamePlayers().get(0));
 		if (points2 >= 11)
 			this.endGame(teamManager.getGamePlayers().get(1));
-		newRound();
+		if (this.isIngame())
+			newRound();
 	}
 
 	@Override
