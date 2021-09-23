@@ -21,6 +21,7 @@ import water.of.cup.boardgames.game.GamePlayer;
 import water.of.cup.boardgames.game.inventories.GameInventory;
 import water.of.cup.boardgames.game.maps.MapData;
 import water.of.cup.boardgames.game.maps.Screen;
+import water.of.cup.boardgames.game.storage.BoardGamesStorageType;
 import water.of.cup.boardgames.game.storage.GameStorage;
 import water.of.cup.boardgames.game.storage.StorageType;
 
@@ -346,7 +347,7 @@ public class PongGame extends Game {
 		if (!hasGameStorage())
 			return;
 
-		if (gameStorage.canExecute(StorageType.POINTS)) {
+		if (gameStorage.canExecute(BoardGamesStorageType.POINTS)) {
 			if (teamManager.getGamePlayers().size() == 1) {
 				GamePlayer player = teamManager.getGamePlayers().get(0);
 
@@ -354,10 +355,10 @@ public class PongGame extends Game {
 						.fetchPlayerStats(player.getPlayer(), getGameStore(), false);
 				double mostPoints = 0;
 
-				if (playerStats != null && playerStats.containsKey(StorageType.POINTS))
-					mostPoints = (Double) playerStats.get(StorageType.POINTS);
+				if (playerStats != null && playerStats.containsKey(BoardGamesStorageType.POINTS))
+					mostPoints = (Double) playerStats.get(BoardGamesStorageType.POINTS);
 				if (points1 > mostPoints)
-					gameStorage.setData(player.getPlayer(), StorageType.POINTS, (double) points1);
+					gameStorage.setData(player.getPlayer(), BoardGamesStorageType.POINTS, (double) points1);
 			}
 		}
 	}
